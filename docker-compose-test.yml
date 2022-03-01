@@ -5,7 +5,7 @@ services:
     image: short-app
     env_file: ./test.env
     working_dir: /app
-    command: rspec
+    command: rspec spec --format documentation
     volumes:
       - .:/app:cached
     depends_on:
