@@ -53,3 +53,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# https://github.com/steventen/base62-rb
+# A simple and fast implementation of base62 in pure Ruby
+gem 'base62-rb'
