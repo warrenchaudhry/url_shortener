@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe UpdateTitleJob, type: :job do
   include ActiveJob::TestHelper
 
-  let(:short_url) { ShortUrl.create(full_url: "https://www.beenverified.com/faq/") }
+  let(:short_url) { create(:short_url, full_url: "https://www.beenverified.com/faq/") }
 
   it "updates the title" do
     expect(short_url.title).to be_nil
