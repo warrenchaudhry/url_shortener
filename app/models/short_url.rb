@@ -9,12 +9,6 @@ class ShortUrl < ApplicationRecord
 
   after_create :assign_short_code!
 
-  def short_code
-    return if new_record?
-
-    self[:short_code] = generate_short_code
-  end
-
   def update_title!
   end
 

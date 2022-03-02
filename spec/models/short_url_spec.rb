@@ -4,7 +4,7 @@ RSpec.describe ShortUrl, type: :model do
 
   describe "ShortUrl" do
 
-    let(:short_url) { ShortUrl.create(full_url: "https://www.beenverified.com/faq/") }
+    let(:short_url) { create(:short_url, full_url: "https://www.beenverified.com/faq/") }
 
     it "finds a short_url with the short_code" do
       expect(ShortUrl.find_by_short_code(short_url.short_code)).to eq short_url
@@ -14,7 +14,7 @@ RSpec.describe ShortUrl, type: :model do
 
   describe "a new short_url instance" do
 
-    let(:short_url) { ShortUrl.new }
+    let(:short_url) { described_class.new }
 
     it "isn't valid without a full_url" do
       expect(short_url).to_not be_valid
@@ -35,7 +35,7 @@ RSpec.describe ShortUrl, type: :model do
 
   describe "existing short_url instance" do
 
-    let(:short_url) { ShortUrl.create(full_url: "https://www.beenverified.com/faq/") }
+    let(:short_url) { create(:short_url, full_url: "https://www.beenverified.com/faq/") }
 
     it "has a short code" do
       # Just validate the short_code class bc specs run in random order
@@ -53,21 +53,29 @@ RSpec.describe ShortUrl, type: :model do
     end
 
     context "with a higher id" do
+      let(:id) { nil }
+      let(:expected_short_code) { nil }
+      let(:short_url) { create(:short_url, id: id, full_url: "https://www.beenverified.com/faq/") }
 
-      # Instead of creating a bunch of ShortUrls to get a higher
-      # id, let's just manipulate the one we have.
-
-      it "has the short_code for id 1001" do
-        short_url.update_column(:id, 1001)
-        expect(short_url.short_code).to eq("g9")
+      shared_examples_for 'it has the expected short code' do
+        it "has the expected short_code" do
+          expect(short_url.short_code).to eq(expected_short_code)
+        end
       end
 
-      it "has the short_code for id for 50" do
-        short_url.update_column(:id, 50)
-        expect(short_url.short_code).to eq("O")
+      context 'when id is 1001' do
+        let(:id) { 1001 }
+        let(:expected_short_code) { 'g9' }
+
+        it_behaves_like 'it has the expected short code'
+      end
+
+      context 'when id is 50' do
+        let(:id) { 50 }
+        let(:expected_short_code) { 'O' }
+
+        it_behaves_like 'it has the expected short code'
       end
     end
-
   end
-
 end
