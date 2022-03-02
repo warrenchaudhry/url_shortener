@@ -6,10 +6,9 @@ class FetchTitleFromUrlHandler
   end
 
   def call!
-    open(url) do |f|
-      doc = Nokogiri::HTML(f)
-      doc.at_css('title').text
-    end
+    html = open(url).read
+    doc = Nokogiri::HTML(html)
+    doc.at_css('title').text
   rescue Errno::ENOENT
     raise ::InvalidUrlError, "Invalid URL: #{url}"
   end
