@@ -10,6 +10,8 @@ class ShortUrl < ApplicationRecord
   after_create :assign_short_code!
 
   def update_title!
+    title = FetchTitleFromUrlHandler.new(full_url).call!
+    update!(title: title)
   end
 
   private

@@ -36,6 +36,8 @@ RSpec.describe ShortUrl, type: :model do
   describe "existing short_url instance" do
 
     let(:short_url) { create(:short_url, full_url: "https://www.beenverified.com/faq/") }
+    let(:fetch_title_handler) { instance_double(FetchTitleFromUrlHandler) }
+    let(:expected_title) { 'Frequently Asked Questions | BeenVerified' }
 
     it "has a short code" do
       # Just validate the short_code class bc specs run in random order
@@ -48,8 +50,10 @@ RSpec.describe ShortUrl, type: :model do
     end
 
     it "fetches the title" do
+      allow(FetchTitleFromUrlHandler).to receive(:new).with(short_url.full_url).and_return(fetch_title_handler)
+      allow(fetch_title_handler).to receive(:call!).and_return(expected_title)
       short_url.update_title!
-      expect(short_url.title).to eq("Frequently Asked Questions | BeenVerified")
+      expect(short_url.title).to eq(expected_title)
     end
 
     context "with a higher id" do
