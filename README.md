@@ -30,3 +30,9 @@
 # Checking your short URL redirect
 
     curl -I localhost:3000/abc
+
+
+---
+# Shortcode Algorithm
+
+For the short code algorithm, I'm using [Base62 in Ruby](https://github.com/steventen/base62-rb) which I came across when searching for a possible solution on how encode base10 (decimal) number to base 62 string (characters set `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`) 
