@@ -6,7 +6,7 @@ RSpec.describe ShortUrlsController, type: :controller do
 
   describe "index" do
 
-    let!(:short_url) { ShortUrl.create(full_url: "https://www.test.rspec") }
+    let!(:short_url) { create(:short_url, full_url: "https://www.test.rspec") }
 
     it "is a successful response" do
       get :index, format: :json

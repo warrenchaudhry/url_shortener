@@ -3,6 +3,7 @@ require 'base62-rb'
 class ShortUrl < ApplicationRecord
 
   CHARACTERS = [*'0'..'9', *'a'..'z', *'A'..'Z'].freeze
+  PUBLIC_ATTRIBUTES = %w(full_url short_code title click_count)
 
   validates :full_url, uniqueness: { case_sensitive: false }, presence: true
   validate :validate_full_url
@@ -12,6 +13,10 @@ class ShortUrl < ApplicationRecord
   def update_title!
     title = FetchTitleFromUrlHandler.new(full_url).call!
     update!(title: title)
+  end
+
+  def public_attributes
+    attributes.slice(*PUBLIC_ATTRIBUTES)
   end
 
   private
